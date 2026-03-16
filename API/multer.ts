@@ -2,7 +2,8 @@ import multer from "multer";
 import {promises as fs} from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
-import config from "../../Search(MongoDB)+API+Frontend/API/config";
+import config from "./config";
+
 
 const imageStore = multer.diskStorage({
     destination: async (_req, _file, callback) => {
@@ -16,4 +17,5 @@ const imageStore = multer.diskStorage({
     },
 });
 
-export default imageStore;
+
+export const imagesUpload = multer({storage: imageStore})
