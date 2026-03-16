@@ -28,8 +28,7 @@ artistsRouter.post("/",imagesUpload.single("image"), async (req, res,next) => {
         res.send(newArtist);
     }catch (error) {
         if (error instanceof mongoose.Error.ValidationError) {
-            res.status(400).send(error);
-            return;
+            return res.status(400).send(error);
         }
         next(error);
     }
