@@ -8,6 +8,7 @@ const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
 
 interface UserMethods {
+    checkPassword: (password: string) => Promise<boolean>;
     generateAuthToken: () => void;
 }
 
@@ -35,6 +36,10 @@ const UserSchema = new Schema<
 
 UserSchema.methods.generateAuthToken = function () {
     this.token = randomUUID();
+};
+
+UserSchema.methods.checkPassword = function (password: string) {
+    return bcrypt.compare(password, this.password);
 };
 
 UserSchema.pre("save", async function () {

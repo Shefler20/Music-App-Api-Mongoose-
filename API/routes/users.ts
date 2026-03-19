@@ -23,4 +23,22 @@ usersRouter.post("/", async (req, res,next) => {
    }
 });
 
+usersRouter.post("/sessions", async (req, res,next) => {
+    try{
+        const user = await User.findOne({username: req.body.username});
+
+        if (!user) return res.status(400).send({message:"User does not exist"});
+
+        const isMatch = await user.checkPassword(req.body.password);
+
+        if (!isMatch) return res.status(400).send({message:"Invalid password"});
+
+        user.generateAuthToken();
+        await user.save();
+        res.send({message:"Session created"});
+    }catch(e){
+        next(e);
+    }
+});
+
 export default usersRouter;
