@@ -21,12 +21,12 @@ const run = async () => {
         {
             name: "Kendrick Lamar",
             description: "American rapper and songwriter",
-            image: "./public/fixtures/kendrick.jpg",
+            image: "/fixtures/kendrick.jpg",
         },
         {
             name: "Drake",
             description: "Canadian rapper and singer",
-            image: "./public/fixtures/drake.jpg",
+            image: "/fixtures/drake.jpg",
         },
     ]);
 
