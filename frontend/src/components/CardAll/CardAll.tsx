@@ -1,5 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/material";
 import {BASE_URL, NO_IMAGE} from "../../globalConst.ts";
+import {NavLink} from "react-router-dom";
 
 interface Props{
     items: Artist
@@ -8,6 +9,8 @@ interface Props{
 const CardAll: React.FC<Props> = ({items}) => {
     return (
         <Card
+            component={NavLink}
+            to={`/albums?artist=${items._id}`}
             sx={{
                 width: 200,
                 height: 280,
