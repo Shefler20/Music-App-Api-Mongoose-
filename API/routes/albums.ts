@@ -12,10 +12,10 @@ albumsRouter.get("/", async (req , res, next ) => {
     }
     try {
         if (!queryID) {
-            const albums = await Album.find().populate("artist");
+            const albums = await Album.find().sort({ date_at: 1 });
             return res.send(albums);
         }
-        const oneArtistAlbums = await Album.find({artist: queryID}).populate("artist");
+        const oneArtistAlbums = await Album.find({artist: queryID}).sort({ date_at: 1 });
         res.send(oneArtistAlbums);
     }catch (err) {
         next(err);

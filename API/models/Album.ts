@@ -15,12 +15,11 @@ const AlbumSchema = new Schema({
     },
     name: {
         type: String,
-        default: null,
+        required: true,
     },
     date_at: {
-        type: Date,
+        type: Number,
         required: true,
-        set: (value: string) => new Date(value)
     },
     image: {
         type: String,

@@ -20,7 +20,20 @@ const trackSchema = new Schema({
     timeout: {
         type: String,
         required: true,
+    },
+    track_count: {
+        type: Number,
     }
+});
+
+trackSchema.pre("save", async function () {
+    if (this.isNew) {
+        const count = await mongoose.model("Track").countDocuments({
+            album: this.album,
+        });
+        this.track_count = count + 1;
+    }
+
 });
 
 const Track = mongoose.model("Track", trackSchema);
