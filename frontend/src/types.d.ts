@@ -12,3 +12,11 @@ interface Album {
     date_at: number;
     image: string | null;
 }
+
+interface Track {
+    _id: string;
+    album: Album;
+    name: string;
+    timeout: string;
+    track_count: number;
+}

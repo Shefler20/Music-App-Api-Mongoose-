@@ -11,10 +11,15 @@ tracksRouter.get("/",async (req, res,next) => {
    }
     try {
        if (!queryID) {
-           const allTracks = await Track.find().populate("album");
+           const allTracks = await Track.find().populate("album").sort({ track_count: 1 });
            return res.send(allTracks);
        }
-       const tracksInOneAlbum = await Track.find({album: queryID}).populate("album");
+       const tracksInOneAlbum = await Track.find({album: queryID}).populate({
+           path: "album",
+           populate: {
+               path: "artist"
+           }
+       }).sort({ track_count:    1 });
        res.send(tracksInOneAlbum);
    } catch (err){
        next(err);

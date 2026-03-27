@@ -4,7 +4,7 @@ import {allAlbumsSelector, loadingAlbumSelector} from "../../features/albums/alb
 import {useEffect} from "react";
 import {getAlbum} from "../../features/albums/albumsSlice.ts";
 import {Box, Card, CardMedia, LinearProgress, Typography} from "@mui/material";
-import {useSearchParams} from "react-router-dom";
+import {NavLink, useSearchParams} from "react-router-dom";
 import {BASE_URL, NO_IMAGE} from "../../globalConst.ts";
 
 
@@ -30,7 +30,11 @@ const ArtistAlbums = () => {
                     </Typography>
                         <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap", mt: 4 }}>
                             {albums.map((album) => (
-                                <Card key={album._id} sx={{ width: 220 }}>
+                                <Card key={album._id}
+                                      sx={{ width: 220, textDecoration: 'none', color: 'inherit' }}
+                                      component={NavLink}
+                                      to={`/tracks?album=${album._id}`}
+                                >
                                     <CardMedia
                                         component="img"
                                         height="180"

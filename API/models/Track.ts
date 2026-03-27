@@ -27,13 +27,12 @@ const trackSchema = new Schema({
 });
 
 trackSchema.pre("save", async function () {
-    if (this.isNew) {
+    if (this.isNew && this.track_count === undefined) {
         const count = await mongoose.model("Track").countDocuments({
             album: this.album,
         });
         this.track_count = count + 1;
     }
-
 });
 
 const Track = mongoose.model("Track", trackSchema);
