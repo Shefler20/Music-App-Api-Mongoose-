@@ -7,6 +7,7 @@ import TracksInAlbum from "./containers/TracksInAlbum/TracksInAlbum.tsx";
 import Register from "./containers/Register/Register.tsx";
 import Header from "./components/Header/Header.tsx";
 import Login from "./containers/Login/Login.tsx";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute.tsx";
 
 
 
@@ -19,7 +20,7 @@ const App = () => (
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/albums" element={<ArtistAlbums/>}/>
-                <Route path="/tracks" element={<TracksInAlbum/>}/>
+                <Route path="/tracks" element={<PrivateRoute><TracksInAlbum/></PrivateRoute>}/>
 
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>
