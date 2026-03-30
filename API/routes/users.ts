@@ -41,7 +41,7 @@ usersRouter.post("/sessions", async (req, res,next) => {
 
         user.generateAuthToken();
         await user.save();
-        res.send({message:"Session created"});
+        res.send({message:"Session created", user});
     }catch(e){
         next(e);
     }

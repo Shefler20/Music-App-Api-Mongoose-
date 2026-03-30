@@ -3,6 +3,11 @@ interface RegisterMutation {
     password: string;
 }
 
+interface LoginMutation {
+    username: string;
+    password: string;
+}
+
 interface User {
     _id: string;
     username: string;
@@ -42,4 +47,8 @@ interface ValidationError {
     message: string;
     name: string;
     _message: string;
+}
+
+interface GlobalError {
+    message: string;
 }

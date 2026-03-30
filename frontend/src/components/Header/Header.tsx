@@ -1,7 +1,12 @@
-import {AppBar, Box, Button, Container, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Container, Toolbar, Typography} from "@mui/material";
 import {NavLink} from "react-router-dom";
+import {useAppSelector} from "../../app/hooks.ts";
+import {userSelector} from "../../features/users/usersSelectors.ts";
+import UserMenu from "./UserMenu/UserMenu.tsx";
+import AnonymousMenu from "./AnonimusMenu/AnonymousMenu.tsx";
 
 const Header= () => {
+    const user = useAppSelector(userSelector);
     return (
         <div>
             <AppBar position="static" sx={{ backgroundColor: "grey.700" }}>
@@ -14,22 +19,7 @@ const Header= () => {
                             >Music App</NavLink>
                         </Typography>
                         <Box sx={{ display: "flex", gap: 2 }}>
-                            <Button
-                                color="inherit"
-                                component={NavLink}
-                                to="/register"
-                            >
-                                Sign Up
-                            </Button>
-
-                            <Button
-                                variant="outlined"
-                                color="inherit"
-                                component={NavLink}
-                                to="/login"
-                            >
-                                Sign In
-                            </Button>
+                            {user ? <UserMenu user={user}/> : <AnonymousMenu/>}
                         </Box>
                     </Toolbar>
                 </Container>

@@ -1,17 +1,22 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
 import {isAxiosError} from "axios";
+import {toast} from "react-toastify";
 
 interface UsersState {
     user: User | null;
     registerLoading: boolean;
     registerError: ValidationError | null;
+    loginLoading: boolean;
+    loginError: GlobalError | null;
 }
 
 const initialState: UsersState = {
     user: null,
     registerLoading: false,
     registerError: null,
+    loginLoading: false,
+    loginError: null,
 }
 
 export const usersSlice = createSlice({
@@ -31,11 +36,24 @@ export const usersSlice = createSlice({
             state.registerLoading = false;
             state.registerError = error || null;
         })
+
+        builder.addCase(login.pending, (state) => {
+            state.loginLoading = true;
+            state.loginError = null;
+        })
+        builder.addCase(login.fulfilled, (state, {payload: user}) => {
+            state.loginLoading = false;
+            state.user = user;
+        })
+        builder.addCase(login.rejected, (state, {payload: error}) => {
+            state.loginLoading = false;
+            state.loginError = error || null;
+        })
     }
 });
 
 export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: ValidationError}>(
-    'users/register',
+    'user/register',
     async (registerMutation, {rejectWithValue}) => {
         try {
             const resp = await axiosApi.post('/users', registerMutation);
@@ -43,6 +61,22 @@ export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: V
         }catch (e){
             if (isAxiosError(e) && e.response && e.response.status === 400){
                 return rejectWithValue(e.response.data);
+            }
+            throw e;
+        }
+    }
+);
+
+export const login = createAsyncThunk<User, LoginMutation, {rejectValue: GlobalError}>(
+    'user/login',
+    async (loginMutation, {rejectWithValue}) => {
+        try {
+            const resp = await axiosApi.post<{user: User, message: string}>('/users/sessions', loginMutation);
+            toast.success(resp.data.message);
+            return resp.data.user;
+        }catch (e){
+            if (isAxiosError(e) && e.response && e.response.status === 400){
+                return rejectWithValue(e.response.data as GlobalError);
             }
             throw e;
         }
