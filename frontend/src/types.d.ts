@@ -1,3 +1,14 @@
+interface RegisterMutation {
+    username: string;
+    password: string;
+}
+
+interface User {
+    _id: string;
+    username: string;
+    token: string;
+}
+
 interface Artist {
     _id: string;
     name: string;
@@ -19,4 +30,16 @@ interface Track {
     name: string;
     timeout: string;
     track_count: number;
+}
+
+interface ValidationError {
+    errors: {
+        [key: string]: {
+            name: string;
+            message: string;
+        }
+    },
+    message: string;
+    name: string;
+    _message: string;
 }

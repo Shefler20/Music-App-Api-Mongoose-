@@ -6,7 +6,13 @@ const usersRouter = express.Router();
 
 usersRouter.post("/", async (req, res,next) => {
     const existingUser = await User.findOne({username: req.body.username});
-    if (existingUser) return res.status(400).send({message:"User already exists"});
+    if (existingUser) return res.status(400).send({
+        errors: {
+            username: {
+                message: "User already exists",
+            },
+        },
+    });
     try {
        const newUser = new User({
            username: req.body.username,
