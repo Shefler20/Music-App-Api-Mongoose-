@@ -1,11 +1,15 @@
 import {Button, Menu, MenuItem} from "@mui/material";
 import {useState} from "react";
+import {useAppDispatch} from "../../../app/hooks.ts";
+import {logout} from "../../../features/users/usersSlice.ts";
+import {NavLink} from "react-router-dom";
 
 interface Props {
     user: User;
 }
 
 const UserMenu: React.FC<Props> = ({user}) => {
+    const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -14,6 +18,10 @@ const UserMenu: React.FC<Props> = ({user}) => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        dispatch(logout());
     };
     return (
         <>
@@ -30,7 +38,8 @@ const UserMenu: React.FC<Props> = ({user}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem component={NavLink} to={"/trach_history"}>Track History</MenuItem>
             </Menu>
         </>
     );

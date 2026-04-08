@@ -5,4 +5,6 @@ const axiosApi = axios.create({
     baseURL: BASE_URL,
 });
 
+axiosApi.defaults.withCredentials = true;
+
 export default axiosApi;

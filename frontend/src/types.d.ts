@@ -37,6 +37,14 @@ interface Track {
     track_count: number;
 }
 
+interface TrackHistory {
+    _id: string;
+    user: User;
+    track: Track;
+    artist: Artist;
+    datetime: Date;
+}
+
 interface ValidationError {
     errors: {
         [key: string]: {

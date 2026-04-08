@@ -4,10 +4,11 @@ import Home from "./containers/Home/Home.tsx";
 import PageNotFound from "./containers/PageNotFound/PageNotFound.tsx";
 import ArtistAlbums from "./containers/ArtistAlbums/ArtistAlbums.tsx";
 import TracksInAlbum from "./containers/TracksInAlbum/TracksInAlbum.tsx";
-import Register from "./containers/Register/Register.tsx";
 import Header from "./components/Header/Header.tsx";
 import Login from "./containers/Login/Login.tsx";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute.tsx";
+import Register from "./containers/Register/Register.tsx";
+import HistoryTrack from "./containers/HistoryTrack/HistoryTrack.tsx";
 
 
 
@@ -21,6 +22,7 @@ const App = () => (
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/albums" element={<ArtistAlbums/>}/>
                 <Route path="/tracks" element={<PrivateRoute><TracksInAlbum/></PrivateRoute>}/>
+                <Route path="/trach_history" element={<PrivateRoute><HistoryTrack/></PrivateRoute>}/>
 
                 <Route path="*" element={<PageNotFound/>}/>
             </Routes>

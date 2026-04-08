@@ -4,6 +4,9 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {loadingTracksSelector, tracksSelector} from "../../features/tracks/tracksSelectors.ts";
 import {getTracks} from "../../features/tracks/tracksSlice.ts";
 import {Box, LinearProgress, List, ListItem, ListItemText, Typography} from "@mui/material";
+import { IconButton } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import {addTrackHistory} from "../../features/trackHistory/trackHostorySlice.ts";
 
 
 const TracksInAlbum = () => {
@@ -46,7 +49,11 @@ const TracksInAlbum = () => {
                                         primary={track.name}
                                         sx={{ marginLeft: 2 }}
                                     />
-
+                                    <IconButton
+                                        onClick={() => dispatch(addTrackHistory({idTrack : track._id}))}
+                                    >
+                                        <PlayArrowIcon />
+                                    </IconButton>
                                     <Typography>
                                         {track.timeout}
                                     </Typography>

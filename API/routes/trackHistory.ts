@@ -10,15 +10,20 @@ const trackHistoryRouter = express.Router();
 trackHistoryRouter.post("/",auth, async (req, res, next) => {
     try {
         const {user} = req as RequestWithUser;
+        const { track } = req.body || {};
 
-        if (!mongoose.Types.ObjectId.isValid(req.body.track)) return res.status(400).send({message:"Invalid Track"});
+        if (!track) {
+            return res.status(400).send({ message: "track is required" });
+        }
 
-        const existingTrack = await Track.findById(req.body.track).populate("album") as PopulatedTrack | null;
+        if (!mongoose.Types.ObjectId.isValid(track)) return res.status(400).send({message:"Invalid Track"});
+
+        const existingTrack = await Track.findById(track).populate("album") as PopulatedTrack | null;
         if (!existingTrack || !existingTrack.album) return res.status(400).send({message:"No Track or album found"});
 
         const newTrackHistory = new TrackHistory({
             user: user._id,
-            track: existingTrack._id,
+            track,
             artist: existingTrack.album.artist,
         });
         await newTrackHistory.save();

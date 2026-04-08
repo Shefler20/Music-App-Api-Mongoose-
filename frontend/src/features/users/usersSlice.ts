@@ -9,6 +9,8 @@ interface UsersState {
     registerError: ValidationError | null;
     loginLoading: boolean;
     loginError: GlobalError | null;
+    logoutLoading: boolean;
+    logoutError: boolean;
 }
 
 const initialState: UsersState = {
@@ -17,6 +19,8 @@ const initialState: UsersState = {
     registerError: null,
     loginLoading: false,
     loginError: null,
+    logoutLoading: false,
+    logoutError: false,
 }
 
 export const usersSlice = createSlice({
@@ -49,6 +53,19 @@ export const usersSlice = createSlice({
             state.loginLoading = false;
             state.loginError = error || null;
         })
+
+        builder.addCase(logout.pending, (state) => {
+            state.logoutLoading = true;
+            state.logoutError = false;
+        });
+        builder.addCase(logout.fulfilled, (state) => {
+            state.logoutLoading = false;
+            state.user = null;
+        });
+        builder.addCase(logout.rejected, (state) => {
+            state.logoutLoading = false;
+            state.logoutError = true;
+        });
     }
 });
 
@@ -66,6 +83,13 @@ export const register = createAsyncThunk<User, RegisterMutation, {rejectValue: V
         }
     }
 );
+
+export const logout = createAsyncThunk<void, void>(
+    'users/logout',
+    async () => {
+        const response = await axiosApi.delete<{message: string}>('/users/sessions');
+        toast.success(response.data.message);
+    });
 
 export const login = createAsyncThunk<User, LoginMutation, {rejectValue: GlobalError}>(
     'user/login',
