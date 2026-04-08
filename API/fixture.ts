@@ -54,28 +54,24 @@ const run = async () => {
     ]);
 
     await Track.create([
-        // DAMN.
         { album: damn!._id, name: "DNA.", timeout: "3:05", track_count: 1 },
         { album: damn!._id, name: "HUMBLE.", timeout: "2:57", track_count: 2 },
         { album: damn!._id, name: "LOYALTY.", timeout: "3:47", track_count: 3 },
         { album: damn!._id, name: "PRIDE.", timeout: "4:35", track_count: 4 },
         { album: damn!._id, name: "ELEMENT.", timeout: "3:28", track_count: 5 },
 
-        // To Pimp a Butterfly
         { album: tpab!._id, name: "Wesley's Theory", timeout: "4:47", track_count: 1 },
         { album: tpab!._id, name: "King Kunta", timeout: "3:55", track_count: 2 },
         { album: tpab!._id, name: "Alright", timeout: "3:39", track_count: 3 },
         { album: tpab!._id, name: "The Blacker the Berry", timeout: "4:33", track_count: 4 },
         { album: tpab!._id, name: "i", timeout: "4:52", track_count: 5 },
 
-        // Take Care
         { album: takeCare!._id, name: "Over My Dead Body", timeout: "4:32", track_count: 1 },
         { album: takeCare!._id, name: "Headlines", timeout: "3:55", track_count: 2 },
         { album: takeCare!._id, name: "Marvin's Room", timeout: "5:47", track_count: 3 },
         { album: takeCare!._id, name: "Take Care", timeout: "4:37", track_count: 4 },
         { album: takeCare!._id, name: "HYFR", timeout: "3:27", track_count: 5 },
 
-        // Nothing Was the Same
         { album: nothingWasTheSame!._id, name: "Tuscan Leather", timeout: "6:02", track_count: 1 },
         { album: nothingWasTheSame!._id, name: "Furthest Thing", timeout: "5:31", track_count: 2 },
         { album: nothingWasTheSame!._id, name: "Started From the Bottom", timeout: "2:54", track_count: 3 },

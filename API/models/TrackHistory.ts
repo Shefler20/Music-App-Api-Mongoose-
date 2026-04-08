@@ -8,6 +8,11 @@ const TrackHistorySchema = new Schema({
         ref: "User",
         required: true,
     },
+    artist: {
+        type: Schema.Types.ObjectId,
+        ref: "Artist",
+        required: true,
+    },
     track: {
         type: Schema.Types.ObjectId,
         ref: "Track",

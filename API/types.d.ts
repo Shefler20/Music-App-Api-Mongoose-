@@ -1,5 +1,15 @@
+import mongoose from "mongoose";
+
 export interface UserFields {
     username: string;
     password: string;
     token: string;
+}
+
+export interface PopulatedTrack {
+    _id: mongoose.Types.ObjectId;
+    album: {
+        _id: mongoose.Types.ObjectId;
+        artist: mongoose.Types.ObjectId;
+    };
 }
