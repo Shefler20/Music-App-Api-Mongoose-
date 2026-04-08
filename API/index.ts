@@ -7,12 +7,19 @@ import tracksRouter from "./routes/tracks";
 import usersRouter from "./routes/users";
 import trackHistoryRouter from "./routes/trackHistory";
 import config from "./config";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 8000;
 
+dotenv.config();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
+app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use("/users", usersRouter);

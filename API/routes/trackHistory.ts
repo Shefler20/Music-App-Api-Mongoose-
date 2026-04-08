@@ -1,18 +1,14 @@
 import express from "express";
-import User from "../models/User";
 import Track from "../models/Track";
 import TrackHistory from "../models/TrackHistory";
 import mongoose from "mongoose";
+import auth, {RequestWithUser} from "../middleware/auth";
 
 const trackHistoryRouter = express.Router();
 
-trackHistoryRouter.post("/", async (req, res, next) => {
+trackHistoryRouter.post("/",auth, async (req, res, next) => {
     try {
-        const token = req.get("Authorization");
-        if (!token) return res.status(401).send({message:"Unauthorized"});
-
-        const user = await User.findOne({token});
-        if (!user) return res.status(401).send({message: "Invalid Token"});
+        const {user} = req as RequestWithUser;
 
         if (!mongoose.Types.ObjectId.isValid(req.body.track)) return res.status(400).send({message:"Invalid Track"});
 
