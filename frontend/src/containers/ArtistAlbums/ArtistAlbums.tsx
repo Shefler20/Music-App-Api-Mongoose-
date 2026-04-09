@@ -23,6 +23,7 @@ const ArtistAlbums = () => {
     return (
         <>
             {loadingAlbum && <LinearProgress />}
+            {albums.length === 0 && <Typography variant="h6" sx={{mt:3, textAlign: "center"}}>No Albums yet</Typography>}
             {!loadingAlbum && albums.length > 0 && (
                 <>
                     <Typography variant="h3" color="textSecondary">

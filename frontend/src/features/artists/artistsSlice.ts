@@ -78,7 +78,7 @@ export const getAllArtists = createAsyncThunk<Artist[], void>(
     }
 );
 
-export const addArtist = createAsyncThunk<void ,ArtistMutation, {rejectValue: ValidationError}>(
+export const addArtist = createAsyncThunk<void ,ArtistMutationApi, {rejectValue: ValidationError}>(
     "artist/addArtist",
     async (artistMutation, {rejectWithValue}) => {
         try {

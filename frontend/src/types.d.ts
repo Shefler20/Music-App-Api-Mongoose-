@@ -23,10 +23,16 @@ interface Artist {
     isPublished: boolean;
 }
 
-interface ArtistMutation {
+interface ArtistMutationApi {
     name: string;
     image: File | null;
     description: string | null;
+}
+
+interface ArtistMutation {
+    name: string;
+    image: File | null;
+    description: string;
 }
 
 interface Album {

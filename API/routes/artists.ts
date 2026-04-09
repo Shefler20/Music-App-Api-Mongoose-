@@ -25,7 +25,7 @@ artistsRouter.post("/",auth ,imagesUpload.single("image"), async (req, res,next)
         const newArtist = new Artist({
             user: user._id,
             name: req.body.name,
-            description: req.body?.description.trim() || null,
+            description: req.body?.description?.trim() || null,
             image: req.file ? 'images/' + req.file.filename : null,
         });
         await newArtist.save();
