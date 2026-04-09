@@ -20,6 +20,7 @@ interface Artist {
     name: string;
     image: string | null;
     description: string | null;
+    isPublished: boolean;
 }
 
 interface ArtistMutation {
@@ -34,6 +35,14 @@ interface Album {
     name: string;
     date_at: number;
     image: string | null;
+    isPublished: boolean;
+}
+
+interface AlbumMutation {
+    artist: string;
+    name: string;
+    date_at: number;
+    image: File | null;
 }
 
 interface Track {
@@ -42,6 +51,13 @@ interface Track {
     name: string;
     timeout: string;
     track_count: number;
+    isPublished: boolean;
+}
+
+interface TrackMutation {
+    album: string;
+    name: string;
+    timeout: string;
 }
 
 interface TrackHistory {
