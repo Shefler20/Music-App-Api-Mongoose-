@@ -43,7 +43,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
                 onClose={handleClose2}
             >
                 <MenuItem component={NavLink} to={"/newArtist"}>Artist</MenuItem>
-                <MenuItem>Album</MenuItem>
+                <MenuItem component={NavLink} to={"/newAlbum"}>Album</MenuItem>
                 <MenuItem>Track</MenuItem>
             </Menu>
             <Button

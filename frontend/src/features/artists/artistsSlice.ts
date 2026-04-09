@@ -4,6 +4,7 @@ import {isAxiosError} from "axios";
 
 interface artistsState {
     artists: Artist[];
+    myArtists: Artist[];
     loading: boolean;
     loadingAdd: boolean;
     loadingDelete: boolean;
@@ -13,6 +14,7 @@ interface artistsState {
 
 export const initialState: artistsState = {
     artists: [],
+    myArtists: [],
     loading: false,
     loadingAdd: false,
     loadingDelete: false,
@@ -67,6 +69,17 @@ export const artistsSlice = createSlice({
         builder.addCase(isPublishedArtist.rejected, (state) => {
             state.loadingEdit = false
         })
+
+        builder.addCase(getMyArtists.pending, (state) => {
+            state.loading = true
+        })
+        builder.addCase(getMyArtists.fulfilled, (state, {payload: artist}) => {
+            state.loading = false
+            state.myArtists = artist
+        })
+        builder.addCase(getMyArtists.rejected, (state) => {
+            state.loading = false
+        })
     }
 });
 
@@ -74,6 +87,14 @@ export const getAllArtists = createAsyncThunk<Artist[], void>(
     'artist/getAllArtists',
     async () => {
         const res = await axiosApi<Artist[]>('/artists');
+        return res.data;
+    }
+);
+
+export const getMyArtists = createAsyncThunk< Artist[], void>(
+    "artists/getMyArtists",
+    async () => {
+        const res = await axiosApi.get<Artist[]>("/artists/my");
         return res.data;
     }
 );

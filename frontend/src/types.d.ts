@@ -47,7 +47,7 @@ interface Album {
 interface AlbumMutation {
     artist: string;
     name: string;
-    date_at: number;
+    date_at: string;
     image: File | null;
 }
 

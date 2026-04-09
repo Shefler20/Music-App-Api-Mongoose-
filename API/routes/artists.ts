@@ -16,6 +16,18 @@ artistsRouter.get("/", async (_req, res,next) => {
     }
 });
 
+artistsRouter.get("/my", auth, async (req, res, next) => {
+    try {
+        const { user } = req as RequestWithUser;
+
+        const artists = await Artist.find({ user: user._id });
+
+        res.send(artists);
+    } catch (e) {
+        next(e);
+    }
+});
+
 artistsRouter.post("/",auth ,imagesUpload.single("image"), async (req, res,next) => {
     const { user } = req as RequestWithUser;
     try {

@@ -28,6 +28,7 @@ const TracksInAlbum = () => {
     return (
         <>
             {loadingTracks && <LinearProgress />}
+            {tracks.length === 0 && <Typography variant="h6" sx={{mt:3, textAlign: "center"}}>No Tracks yet</Typography>}
             {!loadingTracks && tracks.length > 0 && (
                 <>
                     <Typography variant="h5" component="div">
