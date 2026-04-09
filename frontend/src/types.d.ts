@@ -15,9 +15,16 @@ interface User {
 }
 
 interface Artist {
+    user: User;
     _id: string;
     name: string;
     image: string | null;
+    description: string | null;
+}
+
+interface ArtistMutation {
+    name: string;
+    image: File | null;
     description: string | null;
 }
 

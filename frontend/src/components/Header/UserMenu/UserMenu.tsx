@@ -11,13 +11,22 @@ interface Props {
 const UserMenu: React.FC<Props> = ({user}) => {
     const dispatch = useAppDispatch();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [anchorEl2, setAnchorEl2] = useState<HTMLElement | null>(null);
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(e.currentTarget);
     };
 
+    const handleClick2 = (e: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl2(e.currentTarget);
+    };
+
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleClose2 = () => {
+        setAnchorEl2(null);
     };
 
     const handleLogout = () => {
@@ -25,6 +34,18 @@ const UserMenu: React.FC<Props> = ({user}) => {
     };
     return (
         <>
+            <Button variant="text" onClick={handleClick2} color="inherit">
+                Add
+            </Button>
+            <Menu
+                anchorEl={anchorEl2}
+                open={Boolean(anchorEl2)}
+                onClose={handleClose2}
+            >
+                <MenuItem component={NavLink} to={"/newArtist"}>Artist</MenuItem>
+                <MenuItem>Album</MenuItem>
+                <MenuItem>Track</MenuItem>
+            </Menu>
             <Button
                 variant="outlined"
                 onClick={handleClick}
