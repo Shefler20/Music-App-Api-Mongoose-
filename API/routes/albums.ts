@@ -2,7 +2,9 @@ import express from "express";
 import Album from "../models/Album";
 import mongoose from "mongoose";
 import {imagesUpload} from "../middleware/multer";
-import auth from "../middleware/auth";
+import auth, {RequestWithUser} from "../middleware/auth";
+import Artist from "../models/Artist";
+import permit from "../middleware/permit";
 
 const albumsRouter = express.Router();
 
@@ -55,6 +57,49 @@ albumsRouter.post("/",auth ,imagesUpload.single("image"), async (req , res, next
        }
        next(error);
    }
+});
+
+albumsRouter.delete("/:id",auth , async (req,res,next) => {
+    const { id } = req.params;
+    const { user } = req as RequestWithUser;
+
+    if (!mongoose.Types.ObjectId.isValid(id as string)) return res.status(400).send({message: "Invalid album id"});
+    try {
+        const album = await Album.findById(id);
+        if (!album) return res.status(404).send({message: "Album not found"});
+        const artist = await Artist.findById(album.artist);
+        if (!artist) return res.status(404).send({message: "Artist not found"});
+
+        if (user.role === "admin") {
+            await album.deleteOne();
+            return res.send({message: "Album has been deleted successfully"});
+        }
+
+        const isUserAlbum = artist.user.toString() === user._id.toString();
+
+        if(!isUserAlbum) return res.status(403).send({message: "Forbidden"});
+
+        await album.deleteOne();
+
+        res.send({message: "Album has been deleted successfully"});
+    }catch (error) {
+        next(error);
+    }
+});
+
+albumsRouter.patch("/:id/togglePublished",auth, permit("admin") , async (req,res,next) => {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id as string)) return res.status(400).send({message: "Invalid album id"});
+    try {
+        const album = await Album.findById(id);
+        if (!album) return res.status(404).send({message: "Album not found"});
+
+        album.isPublished = !album.isPublished;
+        await album.save();
+        res.send({message: "Album status updated"});
+    }catch (error) {
+        next(error);
+    }
 });
 
 export default albumsRouter;
