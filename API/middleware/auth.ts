@@ -16,8 +16,6 @@ const auth: RequestHandler = async (ExpressReq: Request, res: Response, next: Ne
 
         const jwtToken = req.cookies.token;
 
-        console.log("cookies:", req.cookies);
-
         if (!jwtToken) return res.status(401).send({message: 'No token provided'});
 
         const decoded = jwt.verify(jwtToken, config.jwtSecret) as {_id: string};
