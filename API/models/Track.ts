@@ -23,6 +23,11 @@ const trackSchema = new Schema({
     },
     track_count: {
         type: Number,
+    },
+    isPublished: {
+        type: Boolean,
+        required: true,
+        default: false,
     }
 });
 

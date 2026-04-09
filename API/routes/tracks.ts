@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import Track from "../models/Track";
+import auth from "../middleware/auth";
 
 const tracksRouter = express.Router();
 
-tracksRouter.get("/",async (req, res,next) => {
+tracksRouter.get("/",auth ,async (req, res,next) => {
    const queryID = req.query.album ? req.query.album.toString() : null;
    if (queryID && !mongoose.Types.ObjectId.isValid(queryID)) {
        return res.status(400).send({message: "Invalid query ID"});

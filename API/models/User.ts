@@ -7,8 +7,6 @@ import argon2 from "argon2";
 
 const Schema = mongoose.Schema;
 
-const SALT_WORK_FACTOR = 10;
-
 interface UserMethods {
     checkPassword: (password: string) => Promise<boolean>;
     generateAuthToken: () => void;
@@ -29,6 +27,12 @@ const UserSchema = new Schema<
     password: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        required: true,
+        default: 'user',
+        enum: ['user', 'admin'],
     },
     token: {
         type: String,
