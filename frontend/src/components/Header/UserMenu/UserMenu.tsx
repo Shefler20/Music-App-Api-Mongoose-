@@ -44,7 +44,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
             >
                 <MenuItem component={NavLink} to={"/newArtist"}>Artist</MenuItem>
                 <MenuItem component={NavLink} to={"/newAlbum"}>Album</MenuItem>
-                <MenuItem>Track</MenuItem>
+                <MenuItem component={NavLink} to={"/newTrack"}>Track</MenuItem>
             </Menu>
             <Button
                 variant="outlined"

@@ -133,7 +133,7 @@ const NewAlbum = () => {
                     onChange={fileInputChangeHandler}
                 />
                 <Button type="submit" variant="contained" disabled={loadingAdd}>
-                    {loadingAdd ? <CircularProgress /> : 'Create Artist'}
+                    {loadingAdd ? <CircularProgress /> : 'Create Album'}
                 </Button>
             </Box>
         </>
