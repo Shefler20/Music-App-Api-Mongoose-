@@ -71,7 +71,8 @@ albumsRouter.delete("/:id",auth , async (req,res,next) => {
         if (!artist) return res.status(404).send({message: "Artist not found"});
 
         if (user.role === "admin") {
-            await album.deleteOne();
+            await Album.findByIdAndDelete(id);
+
             return res.send({message: "Album has been deleted successfully"});
         }
 
@@ -79,7 +80,8 @@ albumsRouter.delete("/:id",auth , async (req,res,next) => {
 
         if(!isUserAlbum) return res.status(403).send({message: "Forbidden"});
 
-        await album.deleteOne();
+        await Album.findByIdAndDelete(id);
+
 
         res.send({message: "Album has been deleted successfully"});
     }catch (error) {

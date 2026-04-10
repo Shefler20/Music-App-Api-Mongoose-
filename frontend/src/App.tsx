@@ -12,29 +12,34 @@ import HistoryTrack from "./containers/HistoryTrack/HistoryTrack.tsx";
 import NewArtist from "./containers/NewArtist/NewArtist.tsx";
 import NewAlbum from "./containers/NewAlbum/NewAlbum.tsx";
 import NewTrack from "./containers/NewTrack/NewTrack.tsx";
+import {useAppSelector} from "./app/hooks.ts";
+import {userSelector} from "./features/users/usersSelectors.ts";
 
 
 
-const App = () => (
-    <>
-        <Header />
-        <Container maxWidth="lg">
-            <Routes>
-                <Route path="/" element={<Home/>} />
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/albums" element={<ArtistAlbums/>}/>
-                <Route path="/tracks" element={<PrivateRoute><TracksInAlbum/></PrivateRoute>}/>
-                <Route path="/trach_history" element={<PrivateRoute><HistoryTrack/></PrivateRoute>}/>
-                <Route path="/newArtist" element={<PrivateRoute><NewArtist/></PrivateRoute>}/>
-                <Route path="/newAlbum" element={<PrivateRoute><NewAlbum/></PrivateRoute>}/>
-                <Route path="/newTrack" element={<PrivateRoute><NewTrack/></PrivateRoute>}/>
+const App = () => {
+    const user = useAppSelector(userSelector);
+    return (
+        <>
+            <Header />
+            <Container maxWidth="lg">
+                <Routes>
+                    <Route path="/" element={<Home/>} />
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/albums" element={<ArtistAlbums/>}/>
+                    <Route path="/tracks" element={<PrivateRoute isAllowed={!!user}><TracksInAlbum/></PrivateRoute>}/>
+                    <Route path="/trach_history" element={<PrivateRoute isAllowed={!!user}><HistoryTrack/></PrivateRoute>}/>
+                    <Route path="/newArtist" element={<PrivateRoute isAllowed={!!user}><NewArtist/></PrivateRoute>}/>
+                    <Route path="/newAlbum" element={<PrivateRoute isAllowed={!!user}><NewAlbum/></PrivateRoute>}/>
+                    <Route path="/newTrack" element={<PrivateRoute isAllowed={!!user}><NewTrack/></PrivateRoute>}/>
 
 
-                <Route path="*" element={<PageNotFound/>}/>
-            </Routes>
-        </Container>
-    </>
-);
+                    <Route path="*" element={<PageNotFound/>}/>
+                </Routes>
+            </Container>
+        </>
+    );
+}
 
 export default App

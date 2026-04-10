@@ -9,7 +9,7 @@ const artistsRouter = express.Router();
 
 artistsRouter.get("/", async (_req, res,next) => {
     try {
-        const artists = await Artist.find();
+        const artists = await Artist.find().populate("user", "username");
         res.send(artists);
     }catch (error) {
         next(error);
@@ -61,7 +61,7 @@ artistsRouter.delete("/:id",auth , async (req,res,next) => {
         if (!artist) return res.status(404).send({message: "Artist not found"});
 
         if (user.role === "admin") {
-            await artist.deleteOne();
+            await Artist.findByIdAndDelete(id);
             return res.send({message: "Artist has been deleted successfully"});
         }
 
@@ -69,7 +69,7 @@ artistsRouter.delete("/:id",auth , async (req,res,next) => {
 
         if(!isUserArtist) return res.status(403).send({message: "Forbidden"});
 
-        await artist.deleteOne();
+        await Artist.findByIdAndDelete(id);
 
         res.send({message: "Artist has been deleted successfully"});
     }catch (error) {

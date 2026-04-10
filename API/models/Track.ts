@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Album from "./Album";
+import TrackHistory from "./TrackHistory";
 
 const Schema = mongoose.Schema;
 
@@ -38,6 +39,18 @@ trackSchema.pre("save", async function () {
         });
         this.track_count = count + 1;
     }
+});
+
+trackSchema.pre("findOneAndDelete", async function () {
+    const track = await this.model.findOne(this.getFilter());
+
+    if (!track) return;
+
+    const trackId = track._id;
+
+    await TrackHistory.deleteMany({
+        track: trackId
+    });
 });
 
 const Track = mongoose.model("Track", trackSchema);

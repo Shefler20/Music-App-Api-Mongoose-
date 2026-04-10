@@ -61,7 +61,7 @@ tracksRouter.delete("/:id",auth , async (req,res,next) => {
         if (!artist) return res.status(404).send({message: "Artist not found"});
 
         if (user.role === "admin") {
-            await track.deleteOne();
+            await Track.findByIdAndDelete(id);
             return res.send({message: "Track has been deleted successfully"});
         }
 
@@ -69,7 +69,7 @@ tracksRouter.delete("/:id",auth , async (req,res,next) => {
 
         if(!isUserTrack) return res.status(403).send({message: "Forbidden"});
 
-        await track.deleteOne();
+        await Track.findByIdAndDelete(id);
 
         res.send({message: "Track has been deleted successfully"});
     }catch (error) {
