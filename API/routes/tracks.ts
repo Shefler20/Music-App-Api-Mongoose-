@@ -21,7 +21,11 @@ tracksRouter.get("/",auth ,async (req, res,next) => {
        const tracksInOneAlbum = await Track.find({album: queryID}).populate({
            path: "album",
            populate: {
-               path: "artist"
+               path: "artist",
+               populate: {
+                   path: "user",
+                   select: "username role"
+               }
            }
        }).sort({ track_count:    1 });
        res.send(tracksInOneAlbum);

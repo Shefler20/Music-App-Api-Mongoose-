@@ -21,7 +21,8 @@ albumsRouter.get("/", async (req , res, next ) => {
         const oneArtistAlbums = await Album.find({artist: queryID}).sort({ date_at: -1 }).populate({
             path: "artist",
             populate: {
-                path: "user"
+                path: "user",
+                select: "username role"
             }
         });
         res.send(oneArtistAlbums);
