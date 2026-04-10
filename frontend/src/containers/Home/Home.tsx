@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {deleteArtist, getAllArtists, isPublishedArtist} from "../../features/artists/artistsSlice.ts";
 import {artistsSelector, loadingArtistsSelector} from "../../features/artists/aristsSelectors.ts";
 import CardAll from "../../components/CardAll/CardAll.tsx";
-import {Box, LinearProgress} from "@mui/material";
+import {Box, LinearProgress, Typography} from "@mui/material";
 import {userSelector} from "../../features/users/usersSelectors.ts";
 
 
@@ -42,6 +42,7 @@ const Home = () => {
     return (
         <>
             {loadingArtists && <LinearProgress />}
+            {filteredArtists.length === 0 && <Typography variant="h6" sx={{mt:3, textAlign: "center"}}>No Artist yet</Typography>}
             {!loadingArtists && artists.length > 0 && (
                 <Box sx={{ display: "flex", alignItems: "center", gap: "1rem", mt: 4 }}>
                     {filteredArtists.map((artist) => (
