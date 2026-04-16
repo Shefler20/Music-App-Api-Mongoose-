@@ -4,9 +4,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {registerErrorSelector, registerLoadingSelector} from "../../features/users/usersSelectors.ts";
-import {register} from "../../features/users/usersSlice.ts";
+import {googleLogin, register} from "../../features/users/usersSlice.ts";
 import FileInput from "../../UI/FileInput.tsx";
 import * as React from "react";
+import {GoogleLogin} from "@react-oauth/google";
+import {toast} from "react-toastify";
 
 
 const Register = () => {
@@ -56,6 +58,11 @@ const Register = () => {
         if (files){
             setForm(prevState => ({...prevState, [name]: files[0]}));
         }
+    };
+
+    const googleLoginHandler = async (credential: string) => {
+        await dispatch(googleLogin(credential)).unwrap();
+        navigate("/");
     };
     return (
         <>
@@ -136,6 +143,16 @@ const Register = () => {
                             >
                                 {loadingRegister ? <CircularProgress/> : "Sign Up"}
                             </Button>
+                            <Box sx={{py:2}}>
+                                <GoogleLogin
+                                    onSuccess={(credentialResponse) => {
+                                        if (credentialResponse.credential) {
+                                            googleLoginHandler(credentialResponse.credential);
+                                        }
+                                    }}
+                                    onError={() => toast.error('Google Login failed.')}
+                                />
+                            </Box>
                             <Grid container justifyContent="flex-end">
                                 <Grid>
                                     <Link to='/login'>

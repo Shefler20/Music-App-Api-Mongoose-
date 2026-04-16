@@ -103,7 +103,7 @@ const Login = () => {
                         >
                             {loadingLogin ? <CircularProgress/> : "Sign Up"}
                         </Button>
-                        <Box sx={{pt:2}}>
+                        <Box sx={{py:2}}>
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
                                     if (credentialResponse.credential) {
