@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -7,13 +9,11 @@ import tracksRouter from "./routes/tracks";
 import usersRouter from "./routes/users";
 import trackHistoryRouter from "./routes/trackHistory";
 import config from "./config";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 const app = express();
 const port = 8000;
 
-dotenv.config();
 app.use(express.json());
 app.use(cors({
     origin: "http://localhost:5173",

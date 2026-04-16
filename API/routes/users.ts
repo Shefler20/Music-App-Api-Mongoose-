@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import User from "../models/User";
 import auth, {RequestWithUser} from "../middleware/auth";
+import {OAuth2Client} from "google-auth-library";
+import config from "../config";
 
 const usersRouter = express.Router();
 
@@ -38,6 +40,55 @@ usersRouter.post("/", async (req, res,next) => {
    }
 });
 
+
+usersRouter.post("/google", async (req, res,next) => {
+    try {
+        if (!req.body.credential) return res.status(400).send({message: "Credential required"});
+        const client = new OAuth2Client(config.clientID);
+
+        console.log(config.clientID)
+        const ticket = await client.verifyIdToken({
+            idToken: req.body.credential,
+            audience: config.clientID
+        });
+
+        const payload = ticket.getPayload();
+
+        if (!payload) return res.status(400).send({message: "Invalid Credential"});
+
+        const email = payload.email;
+        const displayName = payload.name;
+        const avatar = payload.picture;
+        const id = payload.sub;
+
+        if (!email) return res.status(400).send({message: "Not enough email address of google"});
+
+        let user = await User.findOne({googleID: id});
+
+        if (!user) {
+            user = new User({
+                username: email,
+                googleID: id,
+                displayName,
+                avatar,
+                password: crypto.randomUUID()
+            });
+        }
+        user.generateAuthToken();
+        const saveUser = await user.save();
+
+        res.cookie("token", saveUser.token,
+            {
+                httpOnly: true,
+                sameSite: "strict",
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+        res.send({message: "Successfully logged with Google", user});
+    }catch (e) {
+        next(e);
+    }
+});
+
 usersRouter.post("/sessions", async (req, res,next) => {
     try{
         const user = await User.findOne({username: req.body.username});
@@ -63,7 +114,7 @@ usersRouter.post("/sessions", async (req, res,next) => {
     }
 });
 
-usersRouter.delete('/sessions', auth, async (req, res,next) => {
+usersRouter.delete('/sessions', auth, async (req, res) => {
     const {user} = req as RequestWithUser;
 
     user.token = '';

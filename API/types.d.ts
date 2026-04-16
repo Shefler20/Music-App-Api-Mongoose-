@@ -5,6 +5,9 @@ export interface UserFields {
     password: string;
     role: string;
     token: string;
+    googleID?: string;
+    avatar?: string;
+    displayName: string;
 }
 
 export interface PopulatedTrack {

@@ -7,5 +7,7 @@ const config = {
     publicPath: path.join(rootPath, "public"),
     db: "mongodb://localhost/music-api-js30",
     jwtSecret: process.env.JWT_SECRET || 'secret',
+    clientID: process.env.CLIENT_ID || '...',
+    clientSecret: process.env.CLIENT_SECRET || '...',
 };
 export default config;

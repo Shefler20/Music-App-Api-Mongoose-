@@ -3,8 +3,10 @@ import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {loginErrorSelector, loginLoadingSelector,} from "../../features/users/usersSelectors.ts";
-import {login} from "../../features/users/usersSlice.ts";
+import {googleLogin, login} from "../../features/users/usersSlice.ts";
 import {LockOpen} from "@mui/icons-material";
+import {GoogleLogin} from "@react-oauth/google";
+import {toast} from "react-toastify";
 
 
 const Login = () => {
@@ -35,6 +37,11 @@ const Login = () => {
         } catch (e) {
             console.log(e);
         }
+    };
+
+    const googleLoginHandler = async (credential: string) => {
+        await dispatch(googleLogin(credential)).unwrap();
+        navigate("/");
     };
 
     return (
@@ -96,6 +103,16 @@ const Login = () => {
                         >
                             {loadingLogin ? <CircularProgress/> : "Sign Up"}
                         </Button>
+                        <Box sx={{pt:2}}>
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => {
+                                    if (credentialResponse.credential) {
+                                        googleLoginHandler(credentialResponse.credential);
+                                    }
+                                }}
+                                onError={() => toast.error('Google Login failed.')}
+                            />
+                        </Box>
                         <Grid container justifyContent="flex-end">
                             <Grid>
                                 <Link to='/register'>

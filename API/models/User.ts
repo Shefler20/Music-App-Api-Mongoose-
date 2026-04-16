@@ -36,7 +36,13 @@ const UserSchema = new Schema<
     },
     token: {
         type: String,
-    }
+    },
+    displayName: {
+        type: String,
+        required: true,
+    },
+    avatar: String,
+    googleID: String,
 });
 
 UserSchema.path('username').validate({

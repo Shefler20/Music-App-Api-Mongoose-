@@ -66,6 +66,19 @@ export const usersSlice = createSlice({
             state.logoutLoading = false;
             state.logoutError = true;
         });
+
+        builder.addCase(googleLogin.pending, (state) => {
+            state.loginLoading = true;
+            state.loginError = null;
+        })
+        builder.addCase(googleLogin.fulfilled, (state, {payload: user}) => {
+            state.loginLoading = false;
+            state.user = user;
+        })
+        builder.addCase(googleLogin.rejected, (state, {payload: error}) => {
+            state.loginLoading = false;
+            state.loginError = error || null;
+        })
     }
 });
 
@@ -96,6 +109,22 @@ export const login = createAsyncThunk<User, LoginMutation, {rejectValue: GlobalE
     async (loginMutation, {rejectWithValue}) => {
         try {
             const resp = await axiosApi.post<{user: User, message: string}>('/users/sessions', loginMutation);
+            toast.success(resp.data.message);
+            return resp.data.user;
+        }catch (e){
+            if (isAxiosError(e) && e.response && e.response.status === 400){
+                return rejectWithValue(e.response.data as GlobalError);
+            }
+            throw e;
+        }
+    }
+);
+
+export const googleLogin = createAsyncThunk<User, string, {rejectValue: GlobalError}>(
+    'user/googleLogin',
+    async (credential, {rejectWithValue}) => {
+        try {
+            const resp = await axiosApi.post<{user: User, message: string}>('/users/google', {credential});
             toast.success(resp.data.message);
             return resp.data.user;
         }catch (e){
