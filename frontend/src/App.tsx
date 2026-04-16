@@ -29,7 +29,7 @@ const App = () => {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/albums" element={<ArtistAlbums/>}/>
                     <Route path="/tracks" element={<PrivateRoute isAllowed={!!user}><TracksInAlbum/></PrivateRoute>}/>
-                    <Route path="/trach_history" element={<PrivateRoute isAllowed={!!user}><HistoryTrack/></PrivateRoute>}/>
+                    <Route path="/track_history" element={<PrivateRoute isAllowed={!!user}><HistoryTrack/></PrivateRoute>}/>
                     <Route path="/newArtist" element={<PrivateRoute isAllowed={!!user}><NewArtist/></PrivateRoute>}/>
                     <Route path="/newAlbum" element={<PrivateRoute isAllowed={!!user}><NewAlbum/></PrivateRoute>}/>
                     <Route path="/newTrack" element={<PrivateRoute isAllowed={!!user}><NewTrack/></PrivateRoute>}/>

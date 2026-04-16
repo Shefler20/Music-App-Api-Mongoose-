@@ -1,6 +1,8 @@
 interface RegisterMutation {
     username: string;
     password: string;
+    avatar: File | null;
+    displayName: string;
 }
 
 interface LoginMutation {
@@ -13,6 +15,9 @@ interface User {
     username: string;
     token: string;
     role: string;
+    googleID?: string;
+    avatar?: string;
+    displayName: string;
 }
 
 interface Artist {

@@ -40,6 +40,7 @@ const UserSchema = new Schema<
     displayName: {
         type: String,
         required: true,
+        trim: true,
     },
     avatar: String,
     googleID: String,

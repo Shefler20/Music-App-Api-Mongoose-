@@ -5,6 +5,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {registerErrorSelector, registerLoadingSelector} from "../../features/users/usersSelectors.ts";
 import {register} from "../../features/users/usersSlice.ts";
+import FileInput from "../../UI/FileInput.tsx";
+import * as React from "react";
 
 
 const Register = () => {
@@ -16,6 +18,8 @@ const Register = () => {
     const [form, setForm] = useState<RegisterMutation>({
         username: "",
         password: "",
+        avatar: null,
+        displayName: "",
     });
 
     const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +34,8 @@ const Register = () => {
           setForm({
               username: "",
               password: "",
+              avatar: null,
+              displayName: "",
           });
           navigate("/");
       } catch (e) {
@@ -42,6 +48,13 @@ const Register = () => {
             return error?.errors[fieldError].message ;
         }catch {
             return undefined;
+        }
+    };
+
+    const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, files} = e.target;
+        if (files){
+            setForm(prevState => ({...prevState, [name]: files[0]}));
         }
     };
     return (
@@ -63,7 +76,7 @@ const Register = () => {
                         </Typography>
                         <Box component="form" noValidate onSubmit={onSubmitHandler} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
-                                <Grid size={{xs: 12, sm: 6}}>
+                                <Grid size={{xs: 12}}>
                                     <TextField
                                         autoComplete="given-name"
                                         name="username"
@@ -79,7 +92,23 @@ const Register = () => {
                                         disabled={loadingRegister}
                                     />
                                 </Grid>
-                                <Grid size={{xs: 12, sm: 6}}>
+                                <Grid size={{xs: 12}}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="displayName"
+                                        required
+                                        fullWidth
+                                        id="displayName"
+                                        label="Your name of the user"
+                                        autoFocus
+                                        value={form.displayName}
+                                        onChange={onInputChange}
+                                        error={Boolean(getFieldError("displayName"))}
+                                        helperText={getFieldError("displayName")}
+                                        disabled={loadingRegister}
+                                    />
+                                </Grid>
+                                <Grid size={{xs: 12}}>
                                     <TextField
                                         required
                                         fullWidth
@@ -94,6 +123,9 @@ const Register = () => {
                                         helperText={getFieldError("password")}
                                         disabled={loadingRegister}
                                     />
+                                </Grid>
+                                <Grid size={{xs: 12}}>
+                                    <FileInput name="avatar" label="Avatar" value={form.avatar} onChange={fileInputChangeHandler}/>
                                 </Grid>
                             </Grid>
                             <Button

@@ -4,10 +4,11 @@ import User from "../models/User";
 import auth, {RequestWithUser} from "../middleware/auth";
 import {OAuth2Client} from "google-auth-library";
 import config from "../config";
+import {imagesUpload} from "../middleware/multer";
 
 const usersRouter = express.Router();
 
-usersRouter.post("/", async (req, res,next) => {
+usersRouter.post("/", imagesUpload.single("image"), async (req, res,next) => {
     const existingUser = await User.findOne({username: req.body.username});
     if (existingUser) return res.status(400).send({
         errors: {
@@ -20,6 +21,8 @@ usersRouter.post("/", async (req, res,next) => {
        const newUser = new User({
            username: req.body.username,
            password: req.body.password,
+           displayName: req.body.displayName,
+           avatar: req.file ? "images/" + req.file.filename : null,
        });
        newUser.generateAuthToken();
         const saveUser = await newUser.save();
@@ -31,7 +34,7 @@ usersRouter.post("/", async (req, res,next) => {
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
 
-        res.send(newUser);
+        res.send(saveUser);
    } catch (e) {
        if (e instanceof mongoose.Error.ValidationError) {
            return res.status(400).send(e);
