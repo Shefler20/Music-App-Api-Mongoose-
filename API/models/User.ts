@@ -42,7 +42,10 @@ const UserSchema = new Schema<
         required: true,
         trim: true,
     },
-    avatar: String,
+    avatar: {
+        type: String,
+        default: null
+    },
     googleID: String,
 });
 

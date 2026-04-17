@@ -14,15 +14,15 @@ const auth: RequestHandler = async (ExpressReq: Request, res: Response, next: Ne
     try {
         const req = ExpressReq as RequestWithUser;
 
-        const jwtToken = req.cookies.token;
+        const jwtToken = req.cookies.accessToken;
 
-        if (!jwtToken) return res.status(401).send({message: 'No token provided'});
+        if (!jwtToken) return res.status(401).send({message: 'No access token provided'});
 
         const decoded = jwt.verify(jwtToken, config.jwtSecret) as {_id: string};
 
-        const user = await User.findOne({_id: decoded._id, token: jwtToken});
+        const user = await User.findOne({_id: decoded._id});
 
-        if (!user) return res.status(401).send({message: 'No found user'});
+        if (!user) return res.status(401).send({message: 'Invalid access token'});
 
         req.user = user;
         next();

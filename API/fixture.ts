@@ -23,11 +23,13 @@ const run = async () => {
             username: "admin",
             password: "123",
             role: "admin",
+            displayName: "Admin",
         },
         {
             username: "user",
             password: "123",
             role: "user",
+            displayName: "User",
         },
     ]);
 

@@ -26,7 +26,11 @@ const initialState: UsersState = {
 export const usersSlice = createSlice({
     name: 'user',
     initialState,
-    reducers:{},
+    reducers:{
+        resetUser: (state) => {
+            state.user = null;
+        }
+    },
     extraReducers: builder => {
         builder.addCase(register.pending, (state) => {
             state.registerLoading = true;
@@ -133,9 +137,9 @@ export const googleLogin = createAsyncThunk<User, string, {rejectValue: GlobalEr
     'user/googleLogin',
     async (credential, {rejectWithValue}) => {
         try {
-            const resp = await axiosApi.post<{user: User, message: string}>('/users/google', {credential});
+            const resp = await axiosApi.post<{saveUser: User, message: string}>('/users/google', {credential});
             toast.success(resp.data.message);
-            return resp.data.user;
+            return resp.data.saveUser;
         }catch (e){
             if (isAxiosError(e) && e.response && e.response.status === 400){
                 return rejectWithValue(e.response.data as GlobalError);
@@ -145,4 +149,5 @@ export const googleLogin = createAsyncThunk<User, string, {rejectValue: GlobalEr
     }
 );
 
+export const {resetUser} = usersSlice.actions;
 export const userReducer = usersSlice.reducer;
